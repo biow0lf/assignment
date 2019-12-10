@@ -1,24 +1,41 @@
-# README
+# Description
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Models
 
-Things you may want to cover:
+* Upload -- hold name and has many uploaded files. Already generated or not status. Parsing now status. Order. And Output file.
+* UploadFile -- hold uploaded files and file_format (csv/json).
 
-* Ruby version
+## Flow
 
-* System dependencies
+### Create upload
 
-* Configuration
+```
+POST /api/uploads
+```
 
-* Database creation
+### Upload files
 
-* Database initialization
+```
+POST /api/uploads/1/upload_files
+```
 
-* How to run the test suite
+### Sort uploaded files (in background)
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+POST /api/uploads/1/sorts
+```
 
-* Deployment instructions
+### Check status of upload
 
-* ...
+```
+GET /api/uploads/2
+```
+
+Sample output (formatted):
+
+```
+$ curl http://localhost:3000/api/uploads/2
+{"id":2,"name":"Kacy Halvorson","generated":true,"parsing_now":false,
+"output_file_url":"/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b54637a8159b7efd9d8dc6b356c10e4d48be69ae/output.csv?disposition=attachment"}
+$ 
+```
