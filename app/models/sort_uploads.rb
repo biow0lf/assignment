@@ -1,3 +1,5 @@
+require "csv"
+
 class SortUploads
   attr_reader :upload_id, :data
 
@@ -8,6 +10,10 @@ class SortUploads
 
   def sort
     parse_files
+
+    @data.sort_by! { |object| object[:time] }
+
+    @data.reverse! if upload.order == "desc"
   end
 
   private
@@ -34,7 +40,11 @@ class SortUploads
   end
 
   def parse_csv_file(upload_file)
-
+    upload_file.file.blob.open do |file|
+      CSV.parse(File.read(file), headers: false).each do |row|
+        @data << { time: Time.zone.parse(row[0]), text: row[1] }
+      end
+    end
   end
 
   def parse_json_file(upload_file)
