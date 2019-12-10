@@ -8,7 +8,8 @@ describe Api::UploadFilesController do
       post "/api/uploads/#{upload.id}/upload_files", params: {
         upload_file: {
           file: fixture_file_upload(Rails.root + 'file.csv', 'text/csv')
-        }
+        },
+        format: "json"
       }
 
       expect(response).to have_http_status(:ok)
