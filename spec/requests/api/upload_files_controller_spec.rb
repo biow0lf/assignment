@@ -13,6 +13,15 @@ describe Api::UploadFilesController do
       }
 
       expect(response).to have_http_status(:ok)
+
+      post "/api/uploads/#{upload.id}/upload_files", params: {
+        upload_file: {
+          file: fixture_file_upload(Rails.root + 'file.json', 'application/json')
+        },
+        format: "json"
+      }
+
+      expect(response).to have_http_status(:ok)
     end
   end
 end
