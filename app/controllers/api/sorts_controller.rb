@@ -2,7 +2,7 @@ class Api::SortsController < ApplicationController
   def create
     @upload = Upload.find(params[:upload_id])
     order = resource_params[:order] == "asc" ? "asc" : "desc"
-    @upload.update!(generated: false, order: order)
+    @upload.update!(generated: false, parsing_now: true, order: order)
     SortUploadJob.perform_later(@upload.id)
   end
 

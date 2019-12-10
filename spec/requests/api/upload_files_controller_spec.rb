@@ -7,7 +7,8 @@ describe Api::UploadFilesController do
 
       post "/api/uploads/#{upload.id}/upload_files", params: {
         upload_file: {
-          file: fixture_file_upload(Rails.root + 'file.csv', 'text/csv')
+          file: fixture_file_upload(Rails.root + 'file.csv', 'text/csv'),
+          file_format: "csv"
         },
         format: "json"
       }
@@ -16,7 +17,8 @@ describe Api::UploadFilesController do
 
       post "/api/uploads/#{upload.id}/upload_files", params: {
         upload_file: {
-          file: fixture_file_upload(Rails.root + 'file.json', 'application/json')
+          file: fixture_file_upload(Rails.root + 'file.json', 'application/json'),
+          file_format: "json"
         },
         format: "json"
       }
