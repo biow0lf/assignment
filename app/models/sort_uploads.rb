@@ -14,6 +14,8 @@ class SortUploads
     @data.sort_by! { |object| object[:time] }
 
     @data.reverse! if upload.order == "desc"
+
+    save_data_to_upload
   end
 
   private
@@ -54,5 +56,19 @@ class SortUploads
         @data << { time: Time.zone.parse(row["time"]), text: row["text"] }
       end
     end
+  end
+
+  def save_data_to_upload
+    file = Tempfile.new
+
+    CSV.open(file, "wb") do |csv|
+      @data.each do |hash|
+        csv << [hash[:time].iso8601, hash[:text]]
+      end
+    end
+
+    upload.output_file.attach(io: file, filename: "output.csv")
+
+    upload.update!(parsing_now: false, generated: true)
   end
 end
